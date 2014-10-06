@@ -135,10 +135,13 @@ def queueJob(obj):
     queue a job async if available.
     otherwise, just run normal
     """
-    converter = Converter(obj)
-    if not converter.can_convert:
-        return
-    if asyncInstalled():
+    async = asyncInstalled()
+    #there is a bug if not shared blobs. I'm assuming that setup for worker is ok
+    if not async:
+        converter = Converter(obj)
+        if not converter.can_convert:
+            return
+    if async:
         try:
             runner = JobRunner(obj)
             runner.set_quota()
