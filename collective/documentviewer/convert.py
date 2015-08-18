@@ -25,6 +25,8 @@ from collective.documentviewer.utils import mkdir_p
 from collective.documentviewer.events import ConversionFinishedEvent
 from collective.documentviewer.interfaces import IFileWrapper, IOCRLanguage
 import random
+import time
+
 
 word_re = re.compile('\W+')
 logger = getLogger('collective.documentviewer')
@@ -118,6 +120,8 @@ and output:
 %s""" % (cmdformatted, process.returncode, output, error)
             logger.info(error)
             raise Exception(error)
+        # Additional time to properly release the subprocess     
+        time.sleep(5)    
         logger.info("Finished Running Command %s" % cmdformatted)
         return output
 
