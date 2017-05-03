@@ -136,9 +136,9 @@ def queueJob(obj):
     otherwise, just run normal
     """
     async = asyncInstalled()
+    converter = Converter(obj)
     #there is a bug if not shared blobs. I'm assuming that setup for worker is ok
     if not async:
-        converter = Converter(obj)
         if not converter.can_convert:
             return
     if async:
